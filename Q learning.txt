@@ -1,0 +1,59 @@
+-An agent reacting with an unknown environment
+-Each route to the goal state has a node, connecting the possible links to the eventual goal state
+-Initially, associate each link between the nodes to a value of 0 or 100 (similar to percent 
+ where 100 is the optimal it can achieve) 100 being the direct link to the goal
+-In Q learning, the goal is to maximise the amount of points it can get, so if the agent arrives
+ at that goal, it will want to forever stay in this reward state, this is known as the "absorbing goal"
+-The agent learns through continuos trial and analysis through its efficiency and effectiveness
+ (how many points abtained in a given number of moves/time)
+-"States" include rooms/sections of an environment and the movement of one sections/room to another is
+ considered an "action"
+-In your given environment, the states will be depicted as nodes, while the action is represented by
+ the possible options to take, possibly through an array of self-learnt memory or explicit hardcoded
+ into the environment
+-We can create a large matrix, consisting of the possible reward values, in any given state,
+ depicted on the actions taken, this will be assinged to the letter R (reward); an example of
+ a matrix table: Pictures/Maxtrix table - Q learning.PNG
+ (PS. the -1 values represent null actions, no option to execute that action as there may not be connections)
+-We will then add a similar matrix, 'Q', to the brain of our agent, to represent the memory of what the
+ agents learned through experiance. The rows of the matrix Q represent the current state of the agent, and the
+ columns demonstrate the possible actions leading to the next state (the node links to each state).
+-The agent starts out knowing nothing, the matrix Q is initialized to zero. If you have hardcoded the
+ amount of states there are through the environment then the the data will be filled as the agent reacts
+ with the environmetn however, it could start with one element and through the experiance of it training, obtains
+ new columns and rows if another state is found.
+-The equation for the rule of Q learning (obtaining the most points in a given number of moves/time) is the formula:
+
+ Q(state, action) = R(state, action) + Gamma * Max[Q(next state, all actions)]
+
+-In this formula, a value is assigned to a specific element of matrix Q, is equal to the sum of the corresponding value
+ in the matrix R and the learning paramater Gamma, multiplied by the maximum value of Q for all the possible actions in 
+ the next state.
+-Our agent will learn through experiance, furthermore acting as unsupervised learning. This agent will explore from state
+ to state, recording the highest possible value untill its found, and stays there. Each episode or run consists of the agent
+ moving from the initial state given to the goal state. Each time the agent arrives at the goal state, the program goes to
+ the next episode.
+-The Q learning algorithm, in pseudocode, is as follows:
+
+ 1. Set the gamma parameter, and environment rewards in matrix R.
+
+ 2. Initialize matrix Q to zero.
+
+ 3. For each episode:
+
+ Select a random initial state.
+
+ Do While the goal state hasn't been reached.
+
+  Select one among all possible actions for the current state.
+  Using this possible action, consider going to the next state.
+  Get maximum Q value for this next state based on all possible actions.
+  Compute: Q(state, action) = R(state, action) + Gamma * Max[Q(next state, all actions)]
+  Set the next state as the current state.
+
+ End Do
+
+End For
+
+
+
