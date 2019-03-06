@@ -31,10 +31,10 @@ def main():
             last_time = time.time()
             while True:
                 screen =  np.array(ImageGrab.grab(bbox=(0,40,800,640)))
-                #print('Frame took {} seconds'.format(time.time()-last_time))
-                last_time = time.time()
-                new_screen = process_img(screen)
-                cv2.imshow('window', new_screen)
+                print('Frame took {} seconds'.format(time.time()-last_time)) # displays FPS
+                last_time = time.time() # Time taken for a frame to be displayed (used to find the FPS)
+                new_screen = process_img(screen) # used to display the screen recording
+                cv2.imshow('Screen Capture', new_screen) # first parameter is the title, followed by the display of the screen capture
                 #cv2.imshow('window',cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
                 if cv2.waitKey(25) & 0xFF == ord('q'):
                     cv2.destroyAllWindows()
