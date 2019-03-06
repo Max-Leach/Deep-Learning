@@ -30,7 +30,7 @@ def main():
 
             last_time = time.time()
             while True:
-                screen =  np.array(ImageGrab.grab(bbox=(0,40,800,640)))
+                screen =  np.array(ImageGrab.grab(bbox=(0,40,800,640))) # ROI (Region Of Interest - what pixels are captured)
                 print('Frame took {} seconds'.format(time.time()-last_time)) # displays FPS
                 last_time = time.time() # Time taken for a frame to be displayed (used to find the FPS)
                 new_screen = process_img(screen) # used to display the screen recording
