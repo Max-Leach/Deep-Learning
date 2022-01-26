@@ -1,45 +1,29 @@
-import numpy as np
-from PIL import ImageGrab
+from grabscreen import grab_screen
 import cv2
 import time
-import pyautogui
-from pynput.keyboard import Key, Controller
-
-acc = 1
 
 
-def process_img(image):
-    original_image = image
-    # convert to gray
-    processed_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    # edge detection
-    processed_img =  cv2.Canny(processed_img, threshold1 = 200, threshold2=300)
-    return processed_img
 
-commence = input("'start' to commence... ")
+x = 50 # how many frames captured
+frameTotalTime = 0
 
-def main():
-    while 1 == 1:
-        if commence == 'start' or 'Start' or 'go' or 'Go':
-            global acc
-            if acc == 1:
-                acc+=1
-                time.sleep(3)
-                main()
+for i in range(x):
+    
+    timeCounter = time.time()
+    screen = grab_screen(region=(50, 20, 800, 600)) # parameters for region of screen
+    screen = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY) # convert to grey
+    #screen = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB) # convert to colour
+    lastFrameTime = time.time()-timeCounter # updating time
+    print("Frame ", (i+1), " and it took: ", lastFrameTime, "seconds") # output the time taken to capture a frame
+    frameTotalTime = frameTotalTime + lastFrameTime # running total of the time taken to capture i frames
+    timeCounter = time.time() # updating time
 
+    
+    
+    cv2.imshow("Screen capture", screen) # show region captured
+    cv2.waitKey(10)
 
-            last_time = time.time()
-            while True:
-                screen =  np.array(ImageGrab.grab(bbox=(0,40,800,640))) # ROI (Region Of Interest - what pixels are captured)
-                print('Frame took {} seconds'.format(time.time()-last_time)) # displays FPS
-                last_time = time.time() # Time taken for a frame to be displayed (used to find the FPS)
-                new_screen = process_img(screen) # used to display the screen recording
-                cv2.imshow('Screen Capture', new_screen) # first parameter is the title, followed by the display of the screen capture
-                #cv2.imshow('window',cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
-                if cv2.waitKey(25) & 0xFF == ord('q'):
-                    cv2.destroyAllWindows()
-                    break
+avgFrameTime = frameTotalTime/y # average time per frame = total time for all frames / number of frames
+print("Avg Frame time: ", avgFrameTime, "seconds") # output average time per frame
 
-main()
-                
-                
+cv2.destroyAllWindows()
